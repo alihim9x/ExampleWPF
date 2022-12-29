@@ -1,0 +1,111 @@
+﻿<Window x:Class="Model.Form.InputForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Model.Form"
+             mc:Ignorable="d" Width="905" Height="616">
+    <Grid>
+        <Label Content="Element:" HorizontalAlignment="Left" Margin="45,60,0,0" VerticalAlignment="Top" FontSize="15" RenderTransformOrigin="0.577,0.526" />
+        <Label Content="Type:" HorizontalAlignment="Left" Margin="151,22,0,0" VerticalAlignment="Top" FontSize="15" RenderTransformOrigin="0.577,0.526" />
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="322,22,0,0" VerticalAlignment="Top" FontSize="15" RenderTransformOrigin="0.577,0.526" />
+        <Label Content="Level:" HorizontalAlignment="Left" Margin="493,22,0,0" VerticalAlignment="Top" FontSize="15" RenderTransformOrigin="0.577,0.526" />
+        <Grid DataContext="{Binding ElementView.Element.Identify}">
+
+            <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" IsReadOnly="True" 
+                 VerticalAlignment="Top" Width="120" Margin="151,64,0,0" FontSize="15" Text="{Binding Type}"/>
+            <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" IsReadOnly="True"
+                 VerticalAlignment="Top" Width="120" Margin="322,64,0,0" FontSize="15" Text="{Binding Name}"/>
+            <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  IsReadOnly="True"
+                 VerticalAlignment="Top" Width="120" Margin="493,64,0,0" FontSize="15" Text="{Binding Level}"/>
+        </Grid>
+
+        <Button Content="Pick Element" HorizontalAlignment="Left" Margin="636,64,0,0" VerticalAlignment="Top" Width="100"
+                Background="AliceBlue" FontSize="15" Click="PickElement_Click" />
+        <GroupBox Header="Settings" FontSize="15" HorizontalAlignment="Left" Height="228" Margin="45,111,0,0" VerticalAlignment="Top" Width="329">
+            <Grid DataContext="{Binding SettingView}">
+                <Label Content="Concrete Cover:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="12" RenderTransformOrigin="0.577,0.526" />
+                <Label Content="Concrete Grade:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" FontSize="12" RenderTransformOrigin="0.577,0.526" />
+                <Label Content="Steel Grade:" HorizontalAlignment="Left" Margin="10,72,0,0" VerticalAlignment="Top" FontSize="12" RenderTransformOrigin="0.577,0.526" />
+                <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  
+                    VerticalAlignment="Top" Width="120" Margin="149,13,0,0" FontSize="15" Text="{Binding ConcreteCoverMM}"/>
+                <Grid DataContext="{Binding Setting}">
+                    <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  
+                    VerticalAlignment="Top" Width="120" Margin="149,43,0,0" FontSize="15" Text="{Binding ConcreteGrade}" />
+                    <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap"  
+                    VerticalAlignment="Top" Width="120" Margin="149,75,0,0" FontSize="15" Text="{Binding SteelGrade}" />
+                </Grid>
+                <Label Content="Rebar Diameter:" HorizontalAlignment="Left" Margin="10,119,0,0" 
+                       VerticalAlignment="Top" FontSize="12" RenderTransformOrigin="0.577,0.526" />
+                <ComboBox HorizontalAlignment="Left" Margin="149,119,0,0" VerticalAlignment="Top"
+                          Width="120" ItemsSource="{Binding Rebars}" DisplayMemberPath="FullName"
+                          SelectedItem="{Binding Setting.Rebar}"/>
+
+
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Elements" HorizontalAlignment="Left" Height="218" Margin="388,121,0,0" FontSize="15"
+                      VerticalAlignment="Top" Width="427">
+            <Grid>
+                <DataGrid HorizontalAlignment="Left" Height="171" Margin="10,10,0,0" VerticalAlignment="Top" Width="259" 
+                              ItemsSource="{Binding ElementViews}" AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Type" 
+                                            MinWidth="50"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Element.Identify.Type}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Name"
+                                            IsReadOnly="True"
+                                            Binding="{Binding Element.Identify.Name}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Level" 
+                                            IsReadOnly="True"
+                                            Binding="{Binding Element.Identify.Level}"></DataGridTextColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Content="Pick Elements" HorizontalAlignment="Left" Margin="286,13,0,0" VerticalAlignment="Top" Width="110"
+                Background="AliceBlue" FontSize="15" Click="PickElements_Click" />
+                <Button Content="Add Elements" HorizontalAlignment="Left" Margin="286,50,0,0" VerticalAlignment="Top" Width="110"
+                Background="AliceBlue" FontSize="15" Click="AddElements_Click" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Rebars" HorizontalAlignment="Left" Height="176" Margin="45,358,0,0" VerticalAlignment="Top" Width="450">
+            <Grid>
+                <DataGrid HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="318"
+                          ItemsSource="{Binding RebarViews}"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" MinWidth="80" Binding="{Binding Rebar.Name}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Diameter" MinWidth="80" Binding="{Binding DiameterMM}"></DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Shapes" MinWidth="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding RebarShapes}" 
+                                              SelectedItem="{Binding Rebar.RebarShape,UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Delete" Background="AliceBlue" Click="DeleteRebars_Click"></Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Content="Add Rebas" HorizontalAlignment="Left" Margin="347,12,0,0" VerticalAlignment="Top" Width="81"
+                Background="AliceBlue" FontSize="13" Click="AddRebars_Click" />
+
+            </Grid>
+
+        </GroupBox>
+
+
+    </Grid>
+</Window>
